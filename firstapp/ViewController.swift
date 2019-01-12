@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game: Concentration = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    private lazy var game: Concentration = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
     var numberOfPairsOfCards: Int {
         get {
@@ -19,17 +19,17 @@ class ViewController: UIViewController {
         // or just return (cardButtons.count+1)/2
     }
     
-    var flipCount: Int = 0 {
+    private(set) var flipCount: Int = 0 {
         didSet {
             flipCountLabel.text = "Flips: \(flipCount)"
         }
     }
     
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         
         if let cardNumber = cardButtons.index(of: sender) {
 //            print("cardID = \(game.cards[cardNumber].identifier)")
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func restartButton(_ sender: UIButton) {
+    @IBAction private func restartButton(_ sender: UIButton) {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2 )
         updateViewFromModel()
         emojiChoices = ViewController.allEmojis
@@ -67,12 +67,12 @@ class ViewController: UIViewController {
         flipCount = 0
     }
     
-    static var allEmojis = ["👻", "🍭", "🎃", "😈", "💩", "😁"]
-    var emojiChoices = allEmojis
+    private static var allEmojis = ["👻", "🍭", "🎃", "😈", "💩", "😁"]
+    private var emojiChoices = allEmojis
     
-    var emoji = Dictionary<Int, String>() // [Int:String]() same
+    private var emoji = Dictionary<Int, String>() // [Int:String]() same
     
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil {
             if emojiChoices.count > 0 {
                 let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
