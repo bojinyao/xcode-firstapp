@@ -23,11 +23,13 @@ class ViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
         
         if let cardNumber = cardButtons.index(of: sender) {
-            print("cardID = \(game.cards[cardNumber].identifier)")
+//            print("cardID = \(game.cards[cardNumber].identifier)")
 //            flipCard(withEmoji: emojiChoices[cardNumber], on: sender)
+            if !game.cards[cardNumber].isMatched {
+                flipCount += 1
+            }
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         } else {
@@ -50,7 +52,16 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiChoices: Array<String> = ["👻", "🍭", "🎃", "😈", "💩", "😁"]
+    @IBAction func restartButton(_ sender: UIButton) {
+        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2 )
+        updateViewFromModel()
+        emojiChoices = ViewController.allEmojis
+        emoji = [Int:String]()
+        flipCount = 0
+    }
+    
+    static var allEmojis = ["👻", "🍭", "🎃", "😈", "💩", "😁"]
+    var emojiChoices = allEmojis
     
     var emoji = Dictionary<Int, String>() // [Int:String]() same
     
