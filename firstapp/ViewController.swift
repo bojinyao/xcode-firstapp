@@ -63,24 +63,24 @@ class ViewController: UIViewController {
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2 )
         updateViewFromModel()
         emojiChoices = ViewController.allEmojis
-        emoji = [Int:String]()
+        emoji = [Card:String]()
         flipCount = 0
     }
     
     private static var allEmojis = ["👻", "🍭", "🎃", "😈", "💩", "😁"]
     private var emojiChoices = allEmojis
     
-    private var emoji = Dictionary<Int, String>() // [Int:String]() same
+    private var emoji = [Card:String]() // Dictionary<Card, String>() same
     
     private func emoji(for card: Card) -> String {
-        if emoji[card.identifier] == nil {
+        if emoji[card] == nil {
             if emojiChoices.count > 0 {
-                emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
+                emoji[card] = emojiChoices.remove(at: emojiChoices.count.arc4random)
             }
         }
         
-        if emoji[card.identifier] != nil {
-            return emoji[card.identifier]!
+        if emoji[card] != nil {
+            return emoji[card]!
         }
         return "?"
         // or return emoji[card.identifier] ?? "?"
